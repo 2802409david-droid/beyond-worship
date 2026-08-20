@@ -128,19 +128,18 @@ function App() {
       </div>
     );
   }
-
-  return (
+return (
     <div className="app">
       {page === "home" && <Home onNavigate={handleNavigate} userRole={userRole} onLogout={handleLogout} />}
       {page === "songs" && <Songs onNavigate={handleNavigate} />}
       {page === "new-song" && <NewSong onNavigate={handleNavigate} />}
       {page === "edit-song" && <EditSong songId={selectedSongId} onNavigate={handleNavigate} />}
       {page === "song-detail" && <SongDetail songId={selectedSongId} onNavigate={handleNavigate} />}
-      {page === "schedules" && <Schedules onNavigate={(dest) => handleNavigate(dest)} />}
+      {page === "schedules" && <Schedules onNavigate={handleNavigate} />}
       {page === "schedule-detail" && <ScheduleDetail scheduleId={selectedSongId} onNavigate={handleNavigate} />}
       {page === "new-schedule" && <NewSchedule onNavigate={handleNavigate} />}
-      {page === "files" && <Files onNavigate={(dest) => handleNavigate(dest)} userRole={userRole} />}
-      {page === "team" && <Team onNavigate={(dest) => handleNavigate(dest)} userRole={userRole} />}
+      {page === "files" && <Files onNavigate={handleNavigate} userRole={userRole} />}
+      {page === "team" && <Team onNavigate={handleNavigate} userRole={userRole} />}
     </div>
   );
 }
