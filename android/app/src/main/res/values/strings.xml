@@ -1,0 +1,7 @@
+<?xml version='1.0' encoding='utf-8'?>
+<resources>
+    <string name="app_name">BeyondWorship</string>
+    <string name="title_activity_main">BeyondWorship</string>
+    <string name="package_name">com.beyondworship.app</string>
+    <string name="custom_url_scheme">com.beyondworship.app</string>
+</resources>

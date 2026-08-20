@@ -1,0 +1,2191 @@
+/* =========================================
+   APP GENERAL
+   ========================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+
+  background: #05080c;
+
+  color: #ffffff;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+.app {
+  min-height: 100vh;
+
+  padding: 0 20px;
+
+  overflow-x: hidden;
+}
+
+.container {
+  width: 100%;
+
+  max-width: 1100px;
+
+  margin: 0 auto;
+}
+
+
+/* =========================================
+   HERO / PORTADA
+   ========================================= */
+
+.brand-hero {
+  min-height: 100vh;
+
+  width: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  position: relative;
+
+  text-align: center;
+
+  padding: 50px 20px;
+
+  z-index: 10;
+
+  transform-origin: center center;
+
+  will-change:
+    opacity,
+    transform;
+
+  transition:
+    opacity 0.08s linear,
+    transform 0.08s linear;
+}
+
+
+/* =========================================
+   EFECTO DE PROFUNDIDAD DEL HERO
+   ========================================= */
+
+.brand-hero::after {
+  content: "";
+
+  position: absolute;
+
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 180px;
+
+  background: linear-gradient(
+    to bottom,
+    transparent,
+    #05080c
+  );
+
+  pointer-events: none;
+
+  z-index: 1;
+}
+
+
+/* =========================================
+   BOTÓN DE MARCA
+   ========================================= */
+
+.brand-button {
+  border: none;
+
+  background: transparent;
+
+  padding: 0;
+
+  margin: 0;
+
+  width: 100%;
+
+  color: inherit;
+
+  cursor: pointer;
+
+  position: relative;
+
+  z-index: 3;
+}
+
+.brand-button:focus {
+  outline: none;
+}
+
+
+/* =========================================
+   MARCA
+   ========================================= */
+
+.brand {
+  width: 100%;
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+}
+
+
+/* =========================================
+   LOGO
+   ========================================= */
+
+.brand-logo {
+  display: block;
+
+  width: min(310px, 72vw);
+
+  height: auto;
+
+  object-fit: contain;
+
+  margin: 0 auto 28px;
+
+  filter:
+    drop-shadow(
+      0 0 14px rgba(0, 170, 255, 0.25)
+    )
+    drop-shadow(
+      0 0 35px rgba(0, 170, 255, 0.10)
+    );
+
+  transition:
+    transform 0.35s ease,
+    filter 0.35s ease;
+}
+
+.brand-button:hover .brand-logo {
+  transform: scale(1.035);
+
+  filter:
+    drop-shadow(
+      0 0 18px rgba(0, 170, 255, 0.35)
+    )
+    drop-shadow(
+      0 0 40px rgba(0, 170, 255, 0.14)
+    );
+}
+
+
+/* =========================================
+   NOMBRE DE LA MARCA
+   ========================================= */
+
+.brand-name {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 100%;
+
+  margin: 0;
+
+  padding: 0;
+
+  text-align: center;
+
+  text-transform: uppercase;
+
+  line-height: 1;
+
+  gap: 0;
+
+  font-family:
+    Arial,
+    Helvetica,
+    sans-serif;
+}
+
+
+/* =========================================
+   BEYOND
+   ========================================= */
+
+.brand-beyond {
+  display: block;
+
+  margin: 0;
+
+  padding: 0;
+
+  font-size: clamp(
+    48px,
+    8vw,
+    78px
+  );
+
+  font-weight: 900;
+
+  letter-spacing: -3px;
+
+  line-height: 0.9;
+
+  color: #ffffff;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================
+   WORSHIP
+   ========================================= */
+
+.brand-worship {
+  display: block;
+
+  margin: 16px 0 0;
+
+  padding: 0 0 0 10px;
+
+  font-size: clamp(
+    28px,
+    5vw,
+    46px
+  );
+
+  font-weight: 700;
+
+  letter-spacing: 10px;
+
+  line-height: 1;
+
+  color: #00aaff;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================
+   ESLOGAN
+   ========================================= */
+
+.brand-tagline {
+  display: block;
+
+  margin: 38px 0 0;
+
+  padding: 0;
+
+  color: #ffffff;
+
+  opacity: 0.65;
+
+  font-size: 12px;
+
+  font-weight: 600;
+
+  letter-spacing: 5px;
+
+  line-height: 1.2;
+
+  text-align: center;
+
+  white-space: nowrap;
+}
+
+
+/* =========================================
+   INDICADOR DE SCROLL
+   ========================================= */
+
+.scroll-indicator {
+  position: absolute;
+
+  left: 50%;
+
+  bottom: 32px;
+
+  transform: translateX(-50%);
+
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  gap: 8px;
+
+  color: rgba(
+    255,
+    255,
+    255,
+    0.45
+  );
+
+  font-size: 9px;
+
+  font-weight: 600;
+
+  letter-spacing: 3px;
+
+  white-space: nowrap;
+
+  z-index: 20;
+
+  animation:
+    scrollIndicator 2s
+    ease-in-out infinite;
+
+  pointer-events: none;
+}
+
+.scroll-arrow {
+  font-size: 22px;
+
+  line-height: 1;
+
+  color: rgba(
+    0,
+    170,
+    255,
+    0.7
+  );
+}
+
+@keyframes scrollIndicator {
+
+  0%,
+  100% {
+    opacity: 0.35;
+
+    transform:
+      translateX(-50%)
+      translateY(0);
+  }
+
+  50% {
+    opacity: 1;
+
+    transform:
+      translateX(-50%)
+      translateY(8px);
+  }
+}
+
+
+/* =========================================
+   CONTENIDO PRINCIPAL
+   ========================================= */
+
+.main-content {
+  position: relative;
+
+  z-index: 5;
+
+  min-height: 100vh;
+
+  padding-top: 40px;
+
+  background: #05080c;
+}
+
+
+/* =========================================
+   HOME
+   ========================================= */
+
+.home-page {
+  animation:
+    homeAppear
+    0.8s
+    ease-out
+    both;
+}
+
+@keyframes homeAppear {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(35px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+
+/* =========================================
+   BIENVENIDO
+   ========================================= */
+
+.welcome {
+  text-align: center;
+
+  margin: 0 auto 35px;
+
+  padding:
+    70px
+    20px
+    45px;
+
+  position: relative;
+}
+
+.welcome-line {
+  width: 45px;
+
+  height: 2px;
+
+  margin: 0 auto 22px;
+
+  background: #00aaff;
+
+  box-shadow:
+    0 0 12px
+    rgba(0, 170, 255, 0.5);
+}
+
+.welcome h2 {
+  margin: 0;
+
+  font-size: clamp(
+    32px,
+    5vw,
+    46px
+  );
+
+  font-weight: 800;
+
+  letter-spacing: -1px;
+
+  color: #ffffff;
+}
+
+.welcome p {
+  margin: 16px auto 0;
+
+  max-width: 600px;
+
+  color: #8996a0;
+
+  font-size: 15px;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================
+   PRÓXIMA PROGRAMACIÓN
+   ========================================= */
+
+.next-program {
+  max-width: 850px;
+
+  margin: 0 auto 40px;
+
+  padding: 24px;
+
+  border:
+    1px solid
+    rgba(0, 170, 255, 0.35);
+
+  border-radius: 18px;
+
+  background:
+    rgba(0, 20, 35, 0.65);
+
+  box-shadow:
+    0 0 30px
+    rgba(0, 170, 255, 0.08);
+
+  animation:
+    cardAppear
+    0.7s
+    ease-out
+    0.15s
+    both;
+}
+
+@keyframes cardAppear {
+
+  from {
+    opacity: 0;
+
+    transform:
+      translateY(25px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform:
+      translateY(0);
+  }
+}
+
+.next-program-label {
+  color: #00aaff;
+
+  font-size: 13px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+}
+
+.next-program h3 {
+  margin: 10px 0 5px;
+
+  font-size: 25px;
+
+  color: #ffffff;
+}
+
+.next-program p {
+  margin: 0;
+
+  color: #a7b0b8;
+}
+
+
+/* =========================================
+   CABECERA PROGRAMACIÓN
+   ========================================= */
+
+.next-program-top {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 15px;
+}
+
+.next-program-status {
+  padding: 5px 9px;
+
+  border-radius: 6px;
+
+  background:
+    rgba(0, 170, 255, 0.08);
+
+  color: #00aaff;
+
+  font-size: 9px;
+
+  font-weight: 700;
+
+  letter-spacing: 1px;
+}
+
+
+/* =========================================
+   CONTENIDO PROGRAMACIÓN
+   ========================================= */
+
+.next-program-content {
+  display: flex;
+
+  align-items: center;
+
+  gap: 16px;
+
+  margin-top: 18px;
+}
+
+.next-program-icon {
+  width: 52px;
+
+  height: 52px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  flex-shrink: 0;
+
+  border-radius: 14px;
+
+  background:
+    rgba(0, 170, 255, 0.08);
+
+  border:
+    1px solid
+    rgba(0, 170, 255, 0.12);
+
+  font-size: 23px;
+}
+
+
+/* =========================================
+   MENÚ PRINCIPAL
+   ========================================= */
+
+.menu {
+  display: grid;
+
+  grid-template-columns:
+    repeat(4, 1fr);
+
+  gap: 18px;
+
+  max-width: 1000px;
+
+  margin: 0 auto;
+}
+
+.menu-button {
+  position: relative;
+
+  overflow: hidden;
+
+  min-height: 150px;
+
+  padding: 24px 18px;
+
+  border:
+    1px solid
+    rgba(0, 170, 255, 0.25);
+
+  border-radius: 20px;
+
+  background:
+    rgba(8, 12, 18, 0.85);
+
+  color: #ffffff;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    box-shadow 0.25s ease,
+    background 0.25s ease;
+}
+
+.menu-button:hover {
+  transform:
+    translateY(-5px);
+
+  border-color:
+    #00aaff;
+
+  background:
+    rgba(0, 35, 55, 0.9);
+
+  box-shadow:
+    0 0 25px
+    rgba(0, 170, 255, 0.18);
+}
+
+.menu-icon {
+  display: block;
+
+  font-size: 38px;
+
+  margin-bottom: 14px;
+}
+
+.menu-title {
+  display: block;
+
+  font-size: 18px;
+
+  font-weight: 700;
+}
+
+.menu-description {
+  display: block;
+
+  margin-top: 7px;
+
+  color: #8996a0;
+
+  font-size: 13px;
+}
+
+
+/* =========================================
+   FLECHA DE MÓDULOS
+   ========================================= */
+
+.menu-arrow {
+  position: absolute;
+
+  right: 18px;
+
+  bottom: 15px;
+
+  color: #00aaff;
+
+  font-size: 18px;
+
+  opacity: 0;
+
+  transform:
+    translateX(-8px);
+
+  transition:
+    opacity 0.25s ease,
+    transform 0.25s ease;
+}
+
+.menu-button:hover .menu-arrow {
+  opacity: 1;
+
+  transform:
+    translateX(0);
+}
+
+
+/* =========================================
+   ANIMACIÓN DE TARJETAS
+   ========================================= */
+
+.menu-button:nth-child(1) {
+  animation:
+    cardAppear
+    0.6s
+    ease-out
+    0.25s
+    both;
+}
+
+.menu-button:nth-child(2) {
+  animation:
+    cardAppear
+    0.6s
+    ease-out
+    0.35s
+    both;
+}
+
+.menu-button:nth-child(3) {
+  animation:
+    cardAppear
+    0.6s
+    ease-out
+    0.45s
+    both;
+}
+
+.menu-button:nth-child(4) {
+  animation:
+    cardAppear
+    0.6s
+    ease-out
+    0.55s
+    both;
+}
+
+
+/* =========================================
+   FOOTER
+   ========================================= */
+
+.footer {
+  text-align: center;
+
+  padding:
+    50px
+    20px
+    20px;
+
+  color: #58636d;
+
+  font-size: 13px;
+}
+
+
+/* =========================================
+   PÁGINA DE CANCIONES
+   ========================================= */
+
+.songs-page {
+  max-width: 1000px;
+
+  margin: 0 auto;
+
+  padding-bottom: 30px;
+}
+
+.back-button {
+  border:
+    1px solid
+    rgba(0, 170, 255, 0.25);
+
+  background:
+    rgba(8, 12, 18, 0.8);
+
+  color: #ffffff;
+
+  padding:
+    10px 16px;
+
+  border-radius: 10px;
+
+  cursor: pointer;
+
+  font-size: 14px;
+
+  transition: 0.25s ease;
+}
+
+.back-button:hover {
+  border-color: #00aaff;
+
+  background:
+    rgba(0, 35, 55, 0.9);
+}
+
+
+/* =========================================
+   ENCABEZADO DE PÁGINAS
+   ========================================= */
+
+.page-header {
+  margin-top: 30px;
+
+  display: flex;
+
+  align-items: flex-end;
+
+  justify-content: space-between;
+
+  gap: 20px;
+}
+
+.page-label {
+  color: #00aaff;
+
+  font-size: 12px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+
+  text-transform: uppercase;
+}
+
+.page-header h2 {
+  margin: 8px 0 6px;
+
+  font-size: 38px;
+
+  color: #ffffff;
+}
+
+.page-header p {
+  margin: 0;
+
+  color: #8996a0;
+}
+
+
+/* =========================================
+   BOTÓN NUEVA CANCIÓN
+   ========================================= */
+
+.new-song-button {
+  border: none;
+
+  background: #00aaff;
+
+  color: #001018;
+
+  padding:
+    13px 20px;
+
+  border-radius: 12px;
+
+  font-weight: 800;
+
+  cursor: pointer;
+
+  transition: 0.25s ease;
+
+  white-space: nowrap;
+}
+
+.new-song-button:hover {
+  transform:
+    translateY(-2px);
+
+  box-shadow:
+    0 0 25px
+    rgba(0, 170, 255, 0.25);
+}
+
+
+/* =========================================
+   BUSCADOR
+   ========================================= */
+
+.search-box {
+  margin:
+    30px 0 20px;
+
+  display: flex;
+
+  align-items: center;
+
+  gap: 10px;
+
+  padding:
+    14px 16px;
+
+  border:
+    1px solid
+    rgba(0, 170, 255, 0.2);
+
+  border-radius: 14px;
+
+  background:
+    rgba(8, 12, 18, 0.8);
+}
+
+.search-box span {
+  font-size: 18px;
+}
+
+.search-box input {
+  width: 100%;
+
+  border: none;
+
+  outline: none;
+
+  background: transparent;
+
+  color: #ffffff;
+
+  font-size: 15px;
+}
+
+.search-box input::placeholder {
+  color: #66727c;
+}
+
+
+/* =========================================
+   LISTA DE CANCIONES
+   ========================================= */
+
+.songs-list {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 14px;
+}
+
+.song-card {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  gap: 20px;
+
+  padding: 20px;
+
+  border:
+    1px solid
+    rgba(0, 170, 255, 0.18);
+
+  border-radius: 16px;
+
+  background:
+    rgba(8, 12, 18, 0.85);
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.song-card:hover {
+  transform:
+    translateY(-2px);
+
+  border-color:
+    rgba(0, 170, 255, 0.55);
+
+  background:
+    rgba(0, 25, 40, 0.9);
+}
+
+.song-card-main {
+  display: flex;
+
+  align-items: center;
+
+  gap: 15px;
+}
+
+.song-icon {
+  width: 48px;
+
+  height: 48px;
+
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  border-radius: 12px;
+
+  background:
+    rgba(0, 170, 255, 0.1);
+
+  font-size: 22px;
+}
+
+.song-card h3 {
+  margin:
+    0 0 5px;
+
+  color: #ffffff;
+
+  font-size: 18px;
+}
+
+.song-card-main p {
+  margin: 0;
+
+  color: #8996a0;
+
+  font-size: 14px;
+}
+
+.song-info {
+  display: flex;
+
+  gap: 10px;
+
+  flex-wrap: wrap;
+
+  justify-content: flex-end;
+}
+
+.song-info span {
+  padding:
+    7px 10px;
+
+  border-radius: 8px;
+
+  background:
+    rgba(255, 255, 255, 0.04);
+
+  color: #8996a0;
+
+  font-size: 12px;
+}
+
+.song-info strong {
+  color: #ffffff;
+}
+
+
+/* =========================================
+   SIN RESULTADOS
+   ========================================= */
+
+.no-results {
+  text-align: center;
+
+  padding:
+    60px 20px;
+
+  color: #8996a0;
+}
+
+.no-results-icon {
+  display: block;
+
+  font-size: 42px;
+
+  margin-bottom: 15px;
+}
+
+.no-results h3 {
+  margin:
+    0 0 8px;
+
+  color: #ffffff;
+}
+
+.no-results p {
+  margin: 0;
+}
+
+
+/* =========================================
+   COMING SOON
+   ========================================= */
+
+.coming-soon {
+  max-width: 800px;
+
+  margin:
+    20px auto;
+
+  text-align: center;
+
+  padding: 30px;
+}
+
+.coming-soon h2 {
+  margin-top: 35px;
+
+  font-size: 34px;
+
+  color: #ffffff;
+}
+
+.coming-soon p {
+  color: #8996a0;
+}
+
+
+/* =========================================
+   NUEVA CANCIÓN
+   ========================================= */
+
+.new-song-page {
+  width: 100%;
+
+  max-width: 900px;
+
+  margin: 0 auto;
+
+  padding:
+    10px 0 60px;
+}
+
+.new-song-header {
+  text-align: center;
+
+  padding:
+    35px 20px 30px;
+}
+
+.new-song-header h2 {
+  margin:
+    10px 0;
+
+  font-size:
+    clamp(32px, 6vw, 48px);
+
+  font-weight: 800;
+
+  color: #ffffff;
+
+  letter-spacing: 1px;
+}
+
+.new-song-header p {
+  margin:
+    0 auto;
+
+  max-width: 600px;
+
+  color: #a7b0b8;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================
+   FORMULARIO
+   ========================================= */
+
+.song-form {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 20px;
+}
+
+.form-section {
+  padding: 28px;
+
+  border:
+    1px solid
+    rgba(0, 170, 255, 0.18);
+
+  border-radius: 20px;
+
+  background:
+    rgba(8, 12, 18, 0.78);
+
+  box-shadow:
+    0 0 30px
+    rgba(0, 170, 255, 0.04);
+}
+
+.form-section h3 {
+  margin:
+    0 0 6px;
+
+  color: #ffffff;
+
+  font-size: 21px;
+}
+
+.form-section > p {
+  margin:
+    0 0 24px;
+
+  color: #8996a0;
+
+  font-size: 14px;
+
+  line-height: 1.5;
+}
+
+
+/* =========================================
+   CAMPOS
+   ========================================= */
+
+.form-group {
+  display: flex;
+
+  flex-direction: column;
+
+  gap: 8px;
+
+  margin-bottom: 20px;
+}
+
+.form-group:last-child {
+  margin-bottom: 0;
+}
+
+.form-group label {
+  color: #ffffff;
+
+  font-size: 14px;
+
+  font-weight: 600;
+}
+
+
+/* =========================================
+   INPUTS
+   ========================================= */
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+  width: 100%;
+
+  padding:
+    14px 15px;
+
+  border:
+    1px solid
+    rgba(0, 170, 255, 0.2);
+
+  border-radius: 12px;
+
+  outline: none;
+
+  background:
+    rgba(0, 0, 0, 0.45);
+
+  color: #ffffff;
+
+  font-family: inherit;
+
+  font-size: 15px;
+
+  transition:
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color:
+    #00aaff;
+
+  background:
+    rgba(0, 20, 35, 0.65);
+
+  box-shadow:
+    0 0 0 3px
+    rgba(0, 170, 255, 0.08),
+
+    0 0 20px
+    rgba(0, 170, 255, 0.08);
+}
+
+.form-group input::placeholder,
+.form-group textarea::placeholder {
+  color: #58636d;
+}
+
+.form-group select {
+  cursor: pointer;
+}
+
+
+/* =========================================
+   CAMPOS MUSICALES
+   ========================================= */
+
+.music-fields {
+  display: grid;
+
+  grid-template-columns:
+    repeat(3, 1fr);
+
+  gap: 18px;
+}
+
+
+/* =========================================
+   TEXTAREA
+   ========================================= */
+
+.form-group textarea {
+  min-height: 300px;
+
+  resize: vertical;
+
+  line-height: 1.7;
+}
+
+
+/* =========================================
+   BOTONES FORMULARIO
+   ========================================= */
+
+.form-actions {
+  display: flex;
+
+  justify-content: flex-end;
+
+  gap: 12px;
+
+  padding-top: 5px;
+}
+
+.cancel-button,
+.save-song-button {
+  border: none;
+
+  border-radius: 12px;
+
+  padding:
+    13px 22px;
+
+  font-family: inherit;
+
+  font-size: 14px;
+
+  font-weight: 700;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.cancel-button {
+  border:
+    1px solid
+    rgba(255, 255, 255, 0.12);
+
+  background:
+    rgba(255, 255, 255, 0.05);
+
+  color: #a7b0b8;
+}
+
+.cancel-button:hover {
+  transform:
+    translateY(-2px);
+
+  background:
+    rgba(255, 255, 255, 0.08);
+
+  color: #ffffff;
+}
+
+.save-song-button {
+  background: #00aaff;
+
+  color: #00131f;
+
+  box-shadow:
+    0 0 20px
+    rgba(0, 170, 255, 0.18);
+}
+
+.save-song-button:hover {
+  transform:
+    translateY(-2px);
+
+  background: #18b4ff;
+
+  box-shadow:
+    0 0 30px
+    rgba(0, 170, 255, 0.3);
+}
+
+
+/* =========================================
+   TABLET
+   ========================================= */
+
+@media (max-width: 800px) {
+
+  .menu {
+    grid-template-columns:
+      repeat(2, 1fr);
+  }
+
+}
+
+
+/* =========================================
+   MÓVIL
+   ========================================= */
+
+@media (max-width: 700px) {
+
+  .page-header {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .new-song-button {
+    width: 100%;
+  }
+
+  .song-card {
+    align-items: flex-start;
+
+    flex-direction: column;
+  }
+
+  .song-info {
+    justify-content: flex-start;
+  }
+
+  .new-song-page {
+    padding-left: 10px;
+
+    padding-right: 10px;
+  }
+
+  .new-song-header {
+    padding-top: 25px;
+  }
+
+  .form-section {
+    padding: 22px;
+  }
+
+  .music-fields {
+    grid-template-columns: 1fr;
+
+    gap: 0;
+  }
+
+  .form-actions {
+    flex-direction: column-reverse;
+  }
+
+  .cancel-button,
+  .save-song-button {
+    width: 100%;
+  }
+
+}
+
+
+/* =========================================
+   MÓVIL PEQUEÑO
+   ========================================= */
+
+@media (max-width: 500px) {
+
+  .app {
+    padding:
+      0 15px;
+  }
+
+  .brand-hero {
+    min-height: 100vh;
+
+    padding:
+      30px 10px;
+  }
+
+  .brand-logo {
+    width:
+      min(245px, 72vw);
+
+    margin-bottom: 24px;
+  }
+
+  .brand-beyond {
+    font-size: 46px;
+
+    letter-spacing: -2.5px;
+  }
+
+  .brand-worship {
+    margin-top: 13px;
+
+    font-size: 27px;
+
+    letter-spacing: 7px;
+
+    padding-left: 7px;
+  }
+
+  .brand-tagline {
+    margin-top: 38px;
+
+    font-size: 9px;
+
+    letter-spacing: 2.5px;
+
+    line-height: 1.2;
+  }
+
+  .scroll-indicator {
+    bottom: 27px;
+
+    font-size: 8px;
+
+    letter-spacing: 2px;
+  }
+
+  .scroll-arrow {
+    font-size: 20px;
+  }
+
+  .main-content {
+    padding-top: 30px;
+  }
+
+  .welcome {
+    padding:
+      55px 20px 35px;
+  }
+
+  .welcome h2 {
+    font-size: 34px;
+  }
+
+  .welcome p {
+    font-size: 14px;
+  }
+
+  .next-program-top {
+    align-items: flex-start;
+
+    flex-direction: column;
+
+    gap: 8px;
+  }
+
+  .next-program-content {
+    align-items: flex-start;
+  }
+
+  .menu {
+    grid-template-columns: 1fr;
+  }
+
+  .menu-button {
+    min-height: 120px;
+  }
+
+  .menu-arrow {
+    opacity: 1;
+
+    transform:
+      translateX(0);
+  }
+
+}/* =========================================
+   DETALLE DE CANCIÓN
+   ========================================= */
+
+.song-detail-page {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 20px 0 70px;
+
+  animation: songDetailAppear 0.45s ease-out both;
+}
+
+@keyframes songDetailAppear {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================
+   CABECERA
+   ========================================= */
+
+.song-detail-header {
+  position: relative;
+
+  margin-top: 30px;
+  padding: 45px 30px;
+
+  text-align: center;
+
+  border: 1px solid rgba(0, 170, 255, 0.2);
+  border-radius: 24px;
+
+  background:
+    radial-gradient(
+      circle at center,
+      rgba(0, 170, 255, 0.10),
+      transparent 65%
+    ),
+    rgba(8, 12, 18, 0.88);
+
+  box-shadow:
+    0 0 40px rgba(0, 170, 255, 0.06);
+
+  overflow: hidden;
+}
+
+.song-detail-header::before {
+  content: "";
+
+  position: absolute;
+
+  top: 0;
+  left: 50%;
+
+  width: 100px;
+  height: 2px;
+
+  transform: translateX(-50%);
+
+  background: #00aaff;
+
+  box-shadow:
+    0 0 18px rgba(0, 170, 255, 0.6);
+}
+
+.song-detail-header .page-label {
+  display: block;
+
+  margin-bottom: 14px;
+}
+
+.song-detail-header h2 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: clamp(38px, 7vw, 64px);
+
+  font-weight: 900;
+
+  letter-spacing: -2px;
+}
+
+.song-detail-header p {
+  margin: 12px 0 0;
+
+  color: #8996a0;
+
+  font-size: 17px;
+}
+
+
+/* =========================================
+   INFORMACIÓN MUSICAL
+   ========================================= */
+
+.song-detail-info {
+  display: grid;
+
+  grid-template-columns: repeat(3, 1fr);
+
+  gap: 15px;
+
+  margin-top: 20px;
+}
+
+.song-detail-item {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-height: 105px;
+
+  padding: 20px;
+
+  border: 1px solid rgba(0, 170, 255, 0.15);
+
+  border-radius: 18px;
+
+  background: rgba(8, 12, 18, 0.85);
+
+  transition:
+    transform 0.25s ease,
+    border-color 0.25s ease,
+    background 0.25s ease;
+}
+
+.song-detail-item:hover {
+  transform: translateY(-3px);
+
+  border-color: rgba(0, 170, 255, 0.45);
+
+  background: rgba(0, 25, 40, 0.9);
+}
+
+.song-detail-item span {
+  color: #66727c;
+
+  font-size: 10px;
+
+  font-weight: 700;
+
+  letter-spacing: 2px;
+}
+
+.song-detail-item strong {
+  margin-top: 8px;
+
+  color: #00aaff;
+
+  font-size: 28px;
+
+  font-weight: 800;
+}
+
+
+/* =========================================
+   LETRA
+   ========================================= */
+
+.song-lyrics {
+  margin-top: 20px;
+
+  padding: 28px;
+
+  border: 1px solid rgba(0, 170, 255, 0.15);
+
+  border-radius: 20px;
+
+  background: rgba(8, 12, 18, 0.85);
+
+  box-shadow:
+    0 0 30px rgba(0, 170, 255, 0.04);
+}
+
+.song-lyrics-header {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: space-between;
+
+  padding-bottom: 18px;
+
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.song-lyrics-header h3 {
+  margin: 0;
+
+  color: #ffffff;
+
+  font-size: 22px;
+}
+
+.song-lyrics-header h3::before {
+  content: "♪";
+
+  margin-right: 10px;
+
+  color: #00aaff;
+}
+
+
+/* =========================================
+   CONTENIDO DE LA LETRA
+   ========================================= */
+
+.lyrics-content {
+  padding: 28px 5px 5px;
+
+  color: #d8dee3;
+
+  font-size: 17px;
+
+  line-height: 1.9;
+
+  white-space: pre-wrap;
+}
+
+
+/* =========================================
+   SIN LETRA
+   ========================================= */
+
+.lyrics-empty {
+  display: flex;
+
+  flex-direction: column;
+
+  align-items: center;
+
+  justify-content: center;
+
+  min-height: 260px;
+
+  padding: 35px 20px;
+
+  text-align: center;
+}
+
+.lyrics-empty > span {
+  display: flex;
+
+  align-items: center;
+
+  justify-content: center;
+
+  width: 65px;
+  height: 65px;
+
+  margin-bottom: 18px;
+
+  border-radius: 18px;
+
+  background: rgba(0, 170, 255, 0.08);
+
+  border: 1px solid rgba(0, 170, 255, 0.15);
+
+  font-size: 28px;
+
+  box-shadow:
+    0 0 25px rgba(0, 170, 255, 0.08);
+}
+
+.lyrics-empty h3 {
+  margin: 0 0 8px;
+
+  color: #ffffff;
+
+  font-size: 19px;
+}
+
+.lyrics-empty p {
+  margin: 0;
+
+  max-width: 500px;
+
+  color: #66727c;
+
+  font-size: 14px;
+
+  line-height: 1.6;
+}
+
+
+/* =========================================
+   SIN RESULTADOS
+   ========================================= */
+
+.no-results {
+  padding: 60px 20px;
+
+  text-align: center;
+
+  border: 1px solid rgba(0, 170, 255, 0.12);
+
+  border-radius: 20px;
+
+  background: rgba(8, 12, 18, 0.7);
+}
+
+.no-results-icon {
+  display: block;
+
+  margin-bottom: 15px;
+
+  font-size: 38px;
+}
+
+.no-results h3 {
+  margin: 0 0 8px;
+
+  color: #ffffff;
+}
+
+.no-results p {
+  margin: 0;
+
+  color: #66727c;
+}
+
+
+/* =========================================
+   MÓVIL
+   ========================================= */
+
+@media (max-width: 600px) {
+
+  .song-detail-page {
+    padding: 10px 0 50px;
+  }
+
+  .song-detail-header {
+    margin-top: 22px;
+
+    padding: 35px 20px;
+  }
+
+  .song-detail-header h2 {
+    font-size: 42px;
+  }
+
+  .song-detail-header p {
+    font-size: 15px;
+  }
+
+  .song-detail-info {
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 8px;
+  }
+
+  .song-detail-item {
+    min-height: 90px;
+
+    padding: 12px 5px;
+  }
+
+  .song-detail-item span {
+    font-size: 8px;
+
+    letter-spacing: 1px;
+  }
+
+  .song-detail-item strong {
+    font-size: 23px;
+  }
+
+  .song-lyrics {
+    padding: 20px;
+  }
+
+  .lyrics-empty {
+    min-height: 220px;
+  }
+
+}/* ==========================================
+   MÓDULO DE PROGRAMACIONES (SCHEDULES)
+   ========================================== */
+
+.schedules-page {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  width: 100%;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* ENCABEZADO */
+.schedules-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.schedules-header h2 {
+  font-size: 2rem;
+  margin: 4px 0 8px 0;
+  color: #ffffff;
+}
+
+.schedules-header p {
+  color: #a0aec0;
+  margin: 0;
+}
+
+/* GRID DE TARJETAS */
+.schedules-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+  margin-top: 10px;
+}
+
+/* TARJETA DE PROGRAMACIÓN */
+.schedule-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 20px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.schedule-card:hover {
+  background: rgba(255, 255, 255, 0.06);
+  border-color: rgba(56, 189, 248, 0.4);
+  transform: translateY(-3px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.3);
+}
+
+.schedule-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* BADGES DE ESTADO */
+.status-badge {
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.status-confirmado {
+  background: rgba(34, 197, 94, 0.15);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+.status-borrador {
+  background: rgba(234, 179, 8, 0.15);
+  color: #facc15;
+  border: 1px solid rgba(234, 179, 8, 0.3);
+}
+
+.status-finalizado {
+  background: rgba(148, 163, 184, 0.15);
+  color: #cbd5e1;
+  border: 1px solid rgba(148, 163, 184, 0.3);
+}
+
+.schedule-time {
+  font-size: 0.85rem;
+  color: #cbd5e1;
+}
+
+.schedule-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  margin: 0;
+}
+
+.schedule-date {
+  font-size: 0.9rem;
+  color: #38bdf8;
+  margin: 0;
+  font-weight: 500;
+}
+
+/* PIE DE TARJETA */
+.schedule-card-footer {
+  display: flex;
+  gap: 16px;
+  padding-top: 12px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  font-size: 0.85rem;
+  color: #94a3b8;
+}
+
+/* BOTÓN CREAR */
+.create-button {
+  background: linear-gradient(135deg, #0284c7 0%, #2563eb 100%);
+  color: white;
+  border: none;
+  padding: 10px 18px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.create-button:hover {
+  opacity: 0.9;
+}
