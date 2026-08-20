@@ -7,23 +7,37 @@ function ScheduleDetail({ scheduleId, onNavigate }) {
   const [songsList, setSongsList] = useState([]);
 
   useEffect(() => {
-    const foundSchedule = getScheduleById(scheduleId);
-    if (foundSchedule) {
-      setSchedule(foundSchedule);
+    const fetchScheduleData = async () => {
+      if (!scheduleId) return;
+      
+      try {
+        const foundSchedule = await getScheduleById(scheduleId);
+        if (foundSchedule) {
+          setSchedule(foundSchedule);
 
-      // Buscamos la información real de las canciones asignadas
-      const allSongs = getSongs();
-      const assignedSongs = allSongs.filter((song) =>
-        foundSchedule.songIds?.includes(String(song.id))
-      );
-      setSongsList(assignedSongs);
-    }
+          // Buscamos la información real de las canciones asignadas
+          const allSongs = await getSongs();
+          const assignedSongs = allSongs.filter((song) =>
+            foundSchedule.songIds?.includes(String(song.id))
+          );
+          setSongsList(assignedSongs);
+        }
+      } catch (error) {
+        console.error("Error al cargar los detalles de la programación:", error);
+      }
+    };
+
+    fetchScheduleData();
   }, [scheduleId]);
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     if (window.confirm(`¿Estás seguro de que deseas eliminar "${schedule.title}"?`)) {
-      deleteSchedule(schedule.id);
-      if (onNavigate) onNavigate("schedules");
+      try {
+        await deleteSchedule(schedule.id);
+        if (onNavigate) onNavigate("schedules");
+      } catch (error) {
+        console.error("Error al eliminar la programación:", error);
+      }
     }
   };
 

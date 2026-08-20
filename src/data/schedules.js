@@ -63,4 +63,19 @@ export const deleteSchedule = async (id) => {
     console.error("Error al eliminar programación: ", error);
     throw error;
   }
+};import { doc, getDoc } from "firebase/firestore"; // Asegúrate de importar getDoc y doc arriba si no los tienes
+
+export const getScheduleById = async (id) => {
+  try {
+    const docRef = doc(db, SCHEDULES_COLLECTION, id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return { id: docSnap.id, ...docSnap.data() };
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Error al obtener la programación por ID: ", error);
+    throw error;
+  }
 };
