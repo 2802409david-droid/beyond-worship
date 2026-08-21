@@ -1,56 +1,80 @@
+@import "tailwindcss";
+
 :root {
-  font-family: "Segoe UI", system-ui, sans-serif;
-
-  --black: #050505;
-  --black-soft: #0b0b0d;
-  --blue-neon: #00aaff;
-  --blue-bright: #008cff;
-  --blue-dark: #063b63;
-  --white: #ffffff;
-  --gray: #a7b0b8;
-
-  color: var(--white);
-  background: var(--black);
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Inter', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+  background-color: #0b0f19;
+  color: #f8fafc;
+  color-scheme: dark;
 }
 
-* {
-  box-sizing: border-box;
-}
-
-html,
 body {
   margin: 0;
-  min-width: 320px;
+  padding: 0;
+  background: radial-gradient(circle at top, #1e293b 0%, #0b0f19 70%);
   min-height: 100vh;
 }
 
-body {
-  background:
-    radial-gradient(
-      circle at 50% -10%,
-      rgba(0, 170, 255, 0.18),
-      transparent 45%
-    ),
-    linear-gradient(
-      180deg,
-      #0b0b0d 0%,
-      #050505 55%,
-      #000000 100%
-    );
-
-  color: var(--white);
+/* Contenedor general de páginas */
+.page-container {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 40px 24px;
 }
 
+/* Tarjetas con efecto moderno de vidrio (Glassmorphism) */
+.card-modern, .metric-card, div[style*="background: rgba"] {
+  background: rgba(30, 41, 59, 0.6) !important;
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.08) !important;
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3), 0 8px 10px -6px rgba(0, 0, 0, 0.3);
+  transition: all 0.2s ease-in-out;
+}
+
+.card-modern:hover {
+  border-color: rgba(56, 189, 248, 0.3) !important;
+  transform: translateY(-2px);
+}
+
+/* Inputs de búsqueda y formularios profesionales */
+input, select, textarea {
+  background: rgba(15, 23, 42, 0.7) !important;
+  border: 1px solid rgba(255, 255, 255, 0.1) !important;
+  color: #fff !important;
+  border-radius: 10px !important;
+  padding: 12px 16px !important;
+  font-size: 0.95rem !important;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+input:focus, select:focus, textarea:focus {
+  outline: none !important;
+  border-color: #38bdf8 !important;
+  box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+}
+
+/* Botones con estilo moderno */
 button {
-  font-family: inherit;
+  cursor: pointer;
+  font-weight: 600;
+  border-radius: 10px;
+  transition: all 0.2s;
 }
 
-#root {
-  width: 100%;
-  min-height: 100vh;
+button:active {
+  transform: scale(0.98);
+}
+
+/* Scrollbar elegante */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0b0f19;
+}
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #475569;
 }
