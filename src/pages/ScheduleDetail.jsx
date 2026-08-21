@@ -195,6 +195,14 @@ function ScheduleDetail({ scheduleId, onNavigate }) {
                         status === "Confirmado" ? "#34d399" : 
                         status === "Rechazado" ? "#f87171" : "#fbbf24";
 
+                      // Identificamos al usuario logueado en localStorage (puedes adaptarlo según guardes los datos)
+                      const currentUserEmail = localStorage.getItem("userEmail") || "";
+                      const currentUserName = localStorage.getItem("userName") || "";
+
+                      // Validamos si esta tarjeta pertenece al usuario actual (por email o por nombre exacto)
+                      const isMe = (member.email && member.email === currentUserEmail) || 
+                                   (member.name && member.name.toLowerCase() === currentUserName.toLowerCase());
+
                       return (
                         <li
                           key={idx}
@@ -202,12 +210,14 @@ function ScheduleDetail({ scheduleId, onNavigate }) {
                             background: "rgba(255,255,255,0.05)",
                             padding: "14px",
                             borderRadius: "10px",
-                            border: "1px solid rgba(255,255,255,0.08)"
+                            border: isMe ? "1px solid #38bdf8" : "1px solid rgba(255,255,255,0.08)"
                           }}
                         >
                           <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "8px" }}>
                             <div>
-                              <strong style={{ color: "#fff", fontSize: "1.05rem" }}>{member.name}</strong>
+                              <strong style={{ color: "#fff", fontSize: "1.05rem" }}>
+                                {member.name} {isMe && "(Tú)"}
+                              </strong>
                               <div style={{ fontSize: "0.85rem", color: "#cbd5e1" }}>{member.role}</div>
                             </div>
                             <span style={{ fontSize: "0.8rem", padding: "4px 10px", borderRadius: "6px", background: `${badgeColor}20`, color: badgeColor, border: `1px solid ${badgeColor}40`, fontWeight: "bold" }}>
@@ -222,58 +232,64 @@ function ScheduleDetail({ scheduleId, onNavigate }) {
                             </div>
                           )}
 
-                          {/* Botones para aceptar o rechazar */}
-                          {rejectingIndex === idx ? (
-                            <div style={{ marginTop: "10px", display: "flex", flexDirection: "column", gap: "8px" }}>
-                              <input
-                                type="text"
-                                placeholder="Escribe el motivo del rechazo (obligatorio)..."
-                                value={reasonInput}
-                                onChange={(e) => setReasonInput(e.target.value)}
-                                style={{ padding: "8px 12px", borderRadius: "6px", background: "rgba(0,0,0,0.4)", border: "1px solid #f87171", color: "#fff", fontSize: "0.9rem", outline: "none" }}
-                              />
-                              <div style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}>
+                          {/* LOS BOTONES SOLO APARECEN SI ES EL USUARIO DE ESTA TARJETA */}
+                          {isMe ? (
+                            rejectingIndex === idx ? (
+                              <div style={{ marginTop: "10px", display: "flex", flexDirection: "column", gap: "8px" }}>
+                                <input
+                                  type="text"
+                                  placeholder="Escribe el motivo del rechazo (obligatorio)..."
+                                  value={reasonInput}
+                                  onChange={(e) => setReasonInput(e.target.value)}
+                                  style={{ padding: "8px 12px", borderRadius: "6px", background: "rgba(0,0,0,0.4)", border: "1px solid #f87171", color: "#fff", fontSize: "0.9rem", outline: "none" }}
+                                />
+                                <div style={{ display: "flex", gap: "8px", justifyContent: "flex-end" }}>
+                                  <button
+                                    type="button"
+                                    onClick={() => setRejectingIndex(null)}
+                                    style={{ background: "transparent", color: "#cbd5e1", border: "1px solid rgba(255,255,255,0.2)", padding: "4px 10px", borderRadius: "4px", fontSize: "0.8rem", cursor: "pointer" }}
+                                  >
+                                    Cancelar
+                                  </button>
+                                  <button
+                                    type="button"
+                                    onClick={() => {
+                                      if (!reasonInput.trim()) {
+                                        alert("Debes escribir una observación para rechazar.");
+                                        return;
+                                      }
+                                      handleUpdateMemberStatus(idx, "Rechazado", reasonInput.trim());
+                                    }}
+                                    style={{ background: "#ef4444", color: "#fff", border: "none", padding: "4px 10px", borderRadius: "4px", fontSize: "0.8rem", fontWeight: "bold", cursor: "pointer" }}
+                                  >
+                                    Confirmar Rechazo
+                                  </button>
+                                </div>
+                              </div>
+                            ) : (
+                              <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
                                 <button
                                   type="button"
-                                  onClick={() => setRejectingIndex(null)}
-                                  style={{ background: "transparent", color: "#cbd5e1", border: "1px solid rgba(255,255,255,0.2)", padding: "4px 10px", borderRadius: "4px", fontSize: "0.8rem", cursor: "pointer" }}
+                                  onClick={() => handleUpdateMemberStatus(idx, "Confirmado", "")}
+                                  style={{ background: "rgba(52, 211, 153, 0.15)", color: "#34d399", border: "1px solid rgba(52, 211, 153, 0.4)", padding: "6px 12px", borderRadius: "6px", fontSize: "0.85rem", fontWeight: "600", cursor: "pointer", flex: 1 }}
                                 >
-                                  Cancelar
+                                  ✓ Aceptar
                                 </button>
                                 <button
                                   type="button"
                                   onClick={() => {
-                                    if (!reasonInput.trim()) {
-                                      alert("Debes escribir una observación para rechazar.");
-                                      return;
-                                    }
-                                    handleUpdateMemberStatus(idx, "Rechazado", reasonInput.trim());
+                                    setRejectingIndex(idx);
+                                    setReasonInput(member.reason || "");
                                   }}
-                                  style={{ background: "#ef4444", color: "#fff", border: "none", padding: "4px 10px", borderRadius: "4px", fontSize: "0.8rem", fontWeight: "bold", cursor: "pointer" }}
+                                  style={{ background: "rgba(239, 68, 68, 0.15)", color: "#f87171", border: "1px solid rgba(239, 68, 68, 0.4)", padding: "6px 12px", borderRadius: "6px", fontSize: "0.85rem", fontWeight: "600", cursor: "pointer", flex: 1 }}
                                 >
-                                  Confirmar Rechazo
+                                  ✕ Rechazar
                                 </button>
                               </div>
-                            </div>
+                            )
                           ) : (
-                            <div style={{ display: "flex", gap: "8px", marginTop: "8px" }}>
-                              <button
-                                type="button"
-                                onClick={() => handleUpdateMemberStatus(idx, "Confirmado", "")}
-                                style={{ background: "rgba(52, 211, 153, 0.15)", color: "#34d399", border: "1px solid rgba(52, 211, 153, 0.4)", padding: "6px 12px", borderRadius: "6px", fontSize: "0.85rem", fontWeight: "600", cursor: "pointer", flex: 1 }}
-                              >
-                                ✓ Aceptar
-                              </button>
-                              <button
-                                type="button"
-                                onClick={() => {
-                                  setRejectingIndex(idx);
-                                  setReasonInput(member.reason || "");
-                                }}
-                                style={{ background: "rgba(239, 68, 68, 0.15)", color: "#f87171", border: "1px solid rgba(239, 68, 68, 0.4)", padding: "6px 12px", borderRadius: "6px", fontSize: "0.85rem", fontWeight: "600", cursor: "pointer", flex: 1 }}
-                              >
-                                ✕ Rechazar
-                              </button>
+                            <div style={{ fontSize: "0.8rem", color: "#64748b", marginTop: "6px", fontStyle: "italic" }}>
+                              Esperando respuesta de {member.name}...
                             </div>
                           )}
                         </li>
