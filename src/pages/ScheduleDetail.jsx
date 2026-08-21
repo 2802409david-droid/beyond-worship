@@ -174,7 +174,16 @@ function ScheduleDetail({ scheduleId, onNavigate }) {
               {/* EQUIPO CONVOCADO Y SUS RESPUESTAS */}
               <div className="song-form" style={{ background: "rgba(15, 23, 42, 0.6)", border: "1px solid rgba(255,255,255,0.1)", padding: "24px", borderRadius: "16px" }}>
                 <h3 style={{ margin: "0 0 4px 0" }}>👥 Equipo Convocado ({schedule.team?.length || 0})</h3>
-                <p style={{ color: "#94a3b8", fontSize: "0.9rem", marginBottom: "16px" }}>Estado de asistencia de los integrantes.</p>
+                <p style={{ color: "#94a3b8", fontSize: "0.9rem", marginBottom: "12px" }}>Estado de asistencia de los integrantes.</p>
+
+                {/* RESUMEN RÁPIDO DE ASISTENCIA */}
+                {schedule.team && schedule.team.length > 0 && (
+                  <div style={{ display: "flex", gap: "12px", marginBottom: "16px", fontSize: "0.85rem", background: "rgba(0,0,0,0.2)", padding: "8px 12px", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.05)" }}>
+                    <span style={{ color: "#34d399", fontWeight: "600" }}>✅ {schedule.team.filter(m => m.status === "Confirmado").length}</span>
+                    <span style={{ color: "#f87171", fontWeight: "600" }}>✕ {schedule.team.filter(m => m.status === "Rechazado").length}</span>
+                    <span style={{ color: "#fbbf24", fontWeight: "600" }}>⏳ {schedule.team.filter(m => !m.status || m.status === "Pendiente").length}</span>
+                  </div>
+                )}
 
                 {!schedule.team || schedule.team.length === 0 ? (
                   <p style={{ color: "#a0aec0" }}>No hay integrantes convocados.</p>
