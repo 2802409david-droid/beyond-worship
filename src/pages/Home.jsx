@@ -1,8 +1,10 @@
 import { useState, useEffect } from "react";
 import logo from "../assets/beyond-worship-logo.png";
+import { subscribeToSchedules } from "../data/schedules";
 
 function Home({ onNavigate, onLogout }) {
   const [scrollY, setScrollY] = useState(0);
+  const [nextSchedule, setNextSchedule] = useState(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -10,17 +12,26 @@ function Home({ onNavigate, onLogout }) {
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
+    
+    // Suscribirse a las programaciones para obtener la próxima
+    const unsubscribe = subscribeToSchedules((schedules) => {
+      if (schedules && schedules.length > 0) {
+        // Ordenar por fecha más cercana si es necesario, o tomar la primera
+        setNextSchedule(schedules[0]);
+      } else {
+        setNextSchedule(null);
+      }
+    });
+
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+      unsubscribe();
+    };
   }, []);
 
   // Cálculos dinámicos basados en el desplazamiento
-  // 1. Opacidad: se desvanece por completo a los 400px de scroll
   const heroOpacity = Math.max(0, 1 - scrollY / 400);
-
-  // 2. Escala: reduce ligeramente el tamaño al bajar
   const heroScale = Math.max(0.85, 1 - scrollY / 1500);
-
-  // 3. Desplazamiento sutil hacia arriba al hacer scroll
   const heroTranslateY = scrollY * 0.3;
 
   return (
@@ -73,7 +84,7 @@ function Home({ onNavigate, onLogout }) {
       )}
 
       {/* =========================================================
-          1. PORTADA PRINCIPAL (CON EFECTO FADE Y ESCALA AL DESLIZAR)
+          1. PORTADA PRINCIPAL
          ========================================================= */}
       <section 
         className="welcome-hero"
@@ -93,7 +104,6 @@ function Home({ onNavigate, onLogout }) {
           pointerEvents: heroOpacity <= 0.1 ? "none" : "auto"
         }}
       >
-        {/* LOGO */}
         <div style={{ marginBottom: "25px", display: "flex", justifyContent: "center" }}>
           <img 
             src={logo} 
@@ -110,12 +120,10 @@ function Home({ onNavigate, onLogout }) {
           />
         </div>
 
-        {/* NOMBRE BEYOND WORSHIP */}
         <h1 style={{ fontSize: "4rem", fontWeight: "900", margin: "0 0 15px 0", letterSpacing: "-1px", color: "#ffffff" }}>
           Beyond Worship
         </h1>
 
-        {/* LÍNEA DE ACENTO AZUL */}
         <div 
           className="welcome-line" 
           style={{
@@ -128,17 +136,10 @@ function Home({ onNavigate, onLogout }) {
           }}
         />
 
-        {/* BIENVENIDO */}
         <h2 style={{ fontSize: "2.8rem", fontWeight: "800", margin: "0 0 16px 0", color: "#f1f5f9" }}>
           Bienvenido
         </h2>
 
-        {/* DESCRIPCIÓN */}
-        <p style={{ color: "#cbd5e1", fontSize: "1.35rem", maxWidth: "600px", margin: "0 auto", lineHeight: "1.6" }}>
-          
-        </p>
-
-        {/* INDICADOR DE SCROLL */}
         <div style={{ position: "absolute", bottom: "35px", display: "flex", flexDirection: "column", alignItems: "center", gap: "8px", opacity: 0.8 }}>
           <span style={{ fontSize: "0.85rem", fontWeight: "600", letterSpacing: "2px", color: "#94a3b8", textTransform: "uppercase" }}>
             Desliza hacia abajo
@@ -148,7 +149,7 @@ function Home({ onNavigate, onLogout }) {
       </section>
 
       {/* =========================================================
-          2. SECCIÓN DE CONTENIDO (MÚSICA, PROGRAMACIÓN, MENÚ)
+          2. SECCIÓN DE CONTENIDO
          ========================================================= */}
       <section 
         style={{ 
@@ -162,9 +163,16 @@ function Home({ onNavigate, onLogout }) {
         }}
       >
 
-        {/* PRÓXIMA PROGRAMACIÓN */}
+        {/* PRÓXIMA PROGRAMACIÓN (DINÁMICA) */}
         <section 
           className="next-program"
+          onClick={() => {
+            if (nextSchedule && onNavigate) {
+              onNavigate("schedule-detail", nextSchedule.id);
+            } else {
+              onNavigate("schedules");
+            }
+          }}
           style={{
             width: "100%",
             maxWidth: "850px",
@@ -176,15 +184,18 @@ function Home({ onNavigate, onLogout }) {
             backdropFilter: "blur(14px)",
             boxShadow: "0 12px 36px rgba(0, 0, 0, 0.5)",
             boxSizing: "border-box",
-            transition: "all 0.3s ease"
+            transition: "all 0.3s ease",
+            cursor: "pointer"
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.borderColor = "rgba(56, 189, 248, 0.7)";
             e.currentTarget.style.boxShadow = "0 0 30px rgba(56, 189, 248, 0.3)";
+            e.currentTarget.style.transform = "translateY(-4px)";
           }}
           onMouseLeave={(e) => {
             e.currentTarget.style.borderColor = "rgba(56, 189, 248, 0.35)";
             e.currentTarget.style.boxShadow = "0 12px 36px rgba(0, 0, 0, 0.5)";
+            e.currentTarget.style.transform = "translateY(0)";
           }}
         >
           <div className="next-program-top" style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: "18px" }}>
@@ -192,17 +203,26 @@ function Home({ onNavigate, onLogout }) {
               Próxima programación
             </span>
             <span className="next-program-status" style={{ fontSize: "0.75rem", fontWeight: "700", padding: "6px 14px", borderRadius: "8px", background: "rgba(56, 189, 248, 0.15)", color: "#38bdf8", border: "1px solid rgba(56, 189, 248, 0.3)" }}>
-              PRÓXIMAMENTE
+              {nextSchedule ? (nextSchedule.status || "CONFIRMADO") : "PRÓXIMAMENTE"}
             </span>
           </div>
 
-          <div className="next-program-content" style={{ display: "flex", alignItems: "center", gap: "20px" }}>
-            <div className="next-program-icon" style={{ fontSize: "2.4rem", background: "rgba(30, 41, 59, 0.9)", padding: "14px 18px", borderRadius: "16px", border: "1px solid rgba(255, 255, 255, 0.08)" }}>
-              📅
+          <div className="next-program-content" style={{ display: "flex", alignItems: "center", justifyContent: "space-between", gap: "20px" }}>
+            <div style={{ display: "flex", alignItems: "center", gap: "20px" }}>
+              <div className="next-program-icon" style={{ fontSize: "2.4rem", background: "rgba(30, 41, 59, 0.9)", padding: "14px 18px", borderRadius: "16px", border: "1px solid rgba(255, 255, 255, 0.08)" }}>
+                📅
+              </div>
+              <div>
+                <h3 style={{ margin: "0 0 6px 0", fontSize: "1.5rem", fontWeight: "700", color: "#ffffff" }}>
+                  {nextSchedule ? nextSchedule.title : "Culto de Adoración"}
+                </h3>
+                <p style={{ margin: 0, color: "#94a3b8", fontSize: "1.05rem" }}>
+                  {nextSchedule ? `${nextSchedule.date} • ${nextSchedule.time || ""}` : "Domingo · Próximamente"}
+                </p>
+              </div>
             </div>
-            <div>
-              <h3 style={{ margin: "0 0 6px 0", fontSize: "1.5rem", fontWeight: "700", color: "#ffffff" }}>Culto de Adoración</h3>
-              <p style={{ margin: 0, color: "#94a3b8", fontSize: "1.05rem" }}>Domingo · Próximamente</p>
+            <div style={{ color: "#38bdf8", fontWeight: "600", fontSize: "0.95rem", display: "flex", alignItems: "center", gap: "6px" }}>
+              Ver detalles →
             </div>
           </div>
         </section>
@@ -218,7 +238,6 @@ function Home({ onNavigate, onLogout }) {
             maxWidth: "850px"
           }}
         >
-
           {/* CANCIONES */}
           <button
             className="menu-button"
@@ -358,7 +377,6 @@ function Home({ onNavigate, onLogout }) {
             <span className="menu-title" style={{ color: "#fff", fontWeight: "800", fontSize: "1.25rem", marginBottom: "8px" }}>Equipo</span>
             <span className="menu-description" style={{ color: "#94a3b8", fontSize: "0.9rem", lineHeight: "1.4" }}>Integrantes y ministerios</span>
           </button>
-
         </section>
 
       </section>
