@@ -1,14 +1,21 @@
 import { useEffect, useState } from "react";
 import { getScheduleById, deleteSchedule, updateSchedule } from "../data/schedules";
 import { getSongs } from "../data/songs";
+import { auth } from "../firebase"; // Importamos la autenticación de Firebase
 
 function ScheduleDetail({ scheduleId, onNavigate }) {
   const [schedule, setSchedule] = useState(null);
   const [songsList, setSongsList] = useState([]);
   const [rejectingIndex, setRejectingIndex] = useState(null);
   const [reasonInput, setReasonInput] = useState("");
+  const [currentUser, setCurrentUser] = useState(null);
 
   useEffect(() => {
+    // Escuchamos el estado del usuario autenticado en Firebase
+    const unsubscribeAuth = auth.onAuthStateChanged((user) => {
+      setCurrentUser(user);
+    });
+
     const fetchScheduleData = async () => {
       if (!scheduleId) return;
       
@@ -30,6 +37,8 @@ function ScheduleDetail({ scheduleId, onNavigate }) {
     };
 
     fetchScheduleData();
+
+    return () => unsubscribeAuth();
   }, [scheduleId]);
 
   const handleDelete = async () => {
@@ -195,13 +204,9 @@ function ScheduleDetail({ scheduleId, onNavigate }) {
                         status === "Confirmado" ? "#34d399" : 
                         status === "Rechazado" ? "#f87171" : "#fbbf24";
 
-                      // Identificamos al usuario logueado en localStorage (puedes adaptarlo según guardes los datos)
-                      const currentUserEmail = localStorage.getItem("userEmail") || "";
-                      const currentUserName = localStorage.getItem("userName") || "";
-
-                      // Validamos si esta tarjeta pertenece al usuario actual (por email o por nombre exacto)
-                      const isMe = (member.email && member.email === currentUserEmail) || 
-                                   (member.name && member.name.toLowerCase() === currentUserName.toLowerCase());
+                      // Comparamos el email de Firebase Auth con el email guardado en el miembro
+                      const isMe = currentUser && member.email && 
+                                   currentUser.email.toLowerCase() === member.email.toLowerCase();
 
                       return (
                         <li
@@ -232,7 +237,7 @@ function ScheduleDetail({ scheduleId, onNavigate }) {
                             </div>
                           )}
 
-                          {/* LOS BOTONES SOLO APARECEN SI ES EL USUARIO DE ESTA TARJETA */}
+                          {/* LOS BOTONES SOLO APARECEN SI EL CORREO COINCIDE CON EL USUARIO AUTENTICADO */}
                           {isMe ? (
                             rejectingIndex === idx ? (
                               <div style={{ marginTop: "10px", display: "flex", flexDirection: "column", gap: "8px" }}>
