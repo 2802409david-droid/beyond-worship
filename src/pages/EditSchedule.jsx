@@ -14,7 +14,6 @@ function EditSchedule({ scheduleId, onNavigate }) {
   const [selectedSongIds, setSelectedSongIds] = useState([]);
   const [team, setTeam] = useState([]);
 
-  // Suscripción a canciones y a la programación específica en tiempo real
   useEffect(() => {
     let isMounted = true;
 
@@ -30,7 +29,6 @@ function EditSchedule({ scheduleId, onNavigate }) {
         setTime(found.time || "10:00 AM");
         setStatus(found.status || "Confirmado");
         setNotes(found.notes || "");
-        // Asegurar que los IDs se traten como strings para evitar fallos de tipo
         setSelectedSongIds((found.songIds || []).map(id => String(id)));
         setTeam(found.team || [{ role: "Líder de Alabanza", name: "Asignación pendiente" }]);
       }
