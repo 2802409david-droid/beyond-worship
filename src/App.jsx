@@ -1,13 +1,14 @@
 import { useEffect, useState } from "react";
 import "./App.css";
 
-import { auth } from "./firebase";
+import { auth, db } from "./firebase";
 import { 
   signInWithEmailAndPassword, 
   onAuthStateChanged, 
   signOut,
   sendPasswordResetEmail 
 } from "firebase/auth";
+import { collection, getDocs } from "firebase/firestore";
 
 import Home from "./pages/Home";
 import Songs from "./pages/Songs";
@@ -33,13 +34,38 @@ function App() {
   const [page, setPage] = useState("home");
   const [selectedSongId, setSelectedSongId] = useState(null);
   const [scrollY, setScrollY] = useState(0);
-  const [userRole, setUserRole] = useState("admin");
+  const [userRole, setUserRole] = useState("musician");
 
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+    const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
       setUser(currentUser);
+      
+      if (currentUser) {
+        try {
+          const querySnapshot = await getDocs(collection(db, "team"));
+          let foundRole = "musician";
+
+          querySnapshot.forEach((docSnap) => {
+            const data = docSnap.data();
+            if (data.email && data.email.toLowerCase() === currentUser.email.toLowerCase()) {
+              if (data.role === "admin" || data.role === "Director" || data.role === "director") {
+                foundRole = "admin";
+              }
+            }
+          });
+
+          setUserRole(foundRole);
+        } catch (e) {
+          console.error("Error obteniendo rol:", e);
+          setUserRole("musician");
+        }
+      } else {
+        setUserRole("musician");
+      }
+
       setLoadingUser(false);
     });
+
     return () => unsubscribe();
   }, []);
 
@@ -65,7 +91,7 @@ function App() {
       await signInWithEmailAndPassword(auth, email, password);
     } catch (err) {
       console.error("DEBUG LOGIN ERROR:", err.code, err.message);
-      setLoginError(`Error: ${err.code}. Revisa la consola para detalles.`);
+      setLoginError("Error: Revisa tus credenciales.");
     }
   };
 
@@ -80,8 +106,7 @@ function App() {
       await sendPasswordResetEmail(auth, email);
       setResetMessage("¡Correo enviado! Revisa tu bandeja de entrada.");
     } catch (err) {
-      console.error("DEBUG RESET ERROR:", err.code, err.message);
-      setLoginError("No se pudo enviar el correo. Revisa la consola.");
+      setLoginError("No se pudo enviar el correo.");
     }
   };
 
@@ -128,16 +153,17 @@ function App() {
       </div>
     );
   }
-return (
+
+  return (
     <div className="app">
       {page === "home" && <Home onNavigate={handleNavigate} userRole={userRole} onLogout={handleLogout} />}
-      {page === "songs" && <Songs onNavigate={handleNavigate} />}
-      {page === "new-song" && <NewSong onNavigate={handleNavigate} />}
-      {page === "edit-song" && <EditSong songId={selectedSongId} onNavigate={handleNavigate} />}
-      {page === "song-detail" && <SongDetail songId={selectedSongId} onNavigate={handleNavigate} />}
-      {page === "schedules" && <Schedules onNavigate={handleNavigate} />}
-      {page === "schedule-detail" && <ScheduleDetail scheduleId={selectedSongId} onNavigate={handleNavigate} />}
-      {page === "new-schedule" && <NewSchedule onNavigate={handleNavigate} />}
+      {page === "songs" && <Songs onNavigate={handleNavigate} userRole={userRole} />}
+      {page === "new-song" && <NewSong onNavigate={handleNavigate} userRole={userRole} />}
+      {page === "edit-song" && <EditSong songId={selectedSongId} onNavigate={handleNavigate} userRole={userRole} />}
+      {page === "song-detail" && <SongDetail songId={selectedSongId} onNavigate={handleNavigate} userRole={userRole} />}
+      {page === "schedules" && <Schedules onNavigate={handleNavigate} userRole={userRole} />}
+      {page === "schedule-detail" && <ScheduleDetail scheduleId={selectedSongId} onNavigate={handleNavigate} userRole={userRole} />}
+      {page === "new-schedule" && <NewSchedule onNavigate={handleNavigate} userRole={userRole} />}
       {page === "files" && <Files onNavigate={handleNavigate} userRole={userRole} />}
       {page === "team" && <Team onNavigate={handleNavigate} userRole={userRole} />}
     </div>
