@@ -6,7 +6,6 @@ function SongDetail({ songId, onNavigate, userRole }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // Escuchar canciones en tiempo real para obtener los detalles actualizados
     const unsubscribe = subscribeToSongs((songs) => {
       const found = songs.find((s) => String(s.id) === String(songId));
       setSong(found || null);
@@ -31,54 +30,95 @@ function SongDetail({ songId, onNavigate, userRole }) {
 
   if (loading) {
     return (
-      <section className="song-detail-page">
+      <div style={{ textAlign: "center", padding: "80px 20px", color: "#94a3b8" }}>
         <h3>Cargando canción... ☁️</h3>
-      </section>
+      </div>
     );
   }
 
   if (!song) {
     return (
-      <section className="song-detail-page">
-        <button className="back-button" onClick={() => onNavigate && onNavigate("songs")}>
-          ← Volver
+      <div style={{ maxWidth: "800px", margin: "0 auto", padding: "40px 20px", color: "#fff" }}>
+        <button
+          onClick={() => onNavigate && onNavigate("songs")}
+          style={{
+            background: "transparent",
+            border: "none",
+            color: "#38bdf8",
+            cursor: "pointer",
+            fontSize: "1rem",
+            marginBottom: "20px"
+          }}
+        >
+          ← Volver al repertorio
         </button>
         <h3>La canción no existe o fue eliminada.</h3>
-      </section>
+      </div>
     );
   }
 
   return (
-    <section className="song-detail-page">
+    <div style={{ maxWidth: "850px", margin: "0 auto", padding: "40px 20px" }}>
       {/* BOTÓN VOLVER */}
       <button
-        className="back-button"
         onClick={() => onNavigate && onNavigate("songs")}
+        style={{
+          background: "transparent",
+          border: "none",
+          color: "#38bdf8",
+          cursor: "pointer",
+          fontSize: "0.95rem",
+          fontWeight: "600",
+          marginBottom: "20px",
+          display: "flex",
+          alignItems: "center",
+          gap: "6px"
+        }}
       >
-        ← Canciones
+        ← Volver a Canciones
       </button>
 
       {/* ENCABEZADO */}
-      <div className="page-header">
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "flex-start", flexWrap: "wrap", gap: "16px", marginBottom: "24px" }}>
         <div>
-          <span className="page-label">{song.artist}</span>
-          <h2>{song.title}</h2>
+          <span style={{ color: "#38bdf8", fontWeight: "700", textTransform: "uppercase", fontSize: "0.85rem", letterSpacing: "0.05em" }}>
+            {song.artist || "Artista desconocido"}
+          </span>
+          <h2 style={{ margin: "6px 0 0 0", fontSize: "2.2rem", color: "#fff", fontWeight: "800" }}>
+            {song.title}
+          </h2>
         </div>
 
-        {/* Acciones solo para Administrador */}
+        {/* Acciones para Administrador */}
         {userRole === "admin" && (
           <div style={{ display: "flex", gap: "10px" }}>
             <button
-              className="new-song-button"
-              style={{ background: "#38bdf8", color: "#0f172a" }}
               onClick={() => onNavigate && onNavigate("edit-song", songId)}
+              style={{
+                background: "rgba(56, 189, 248, 0.15)",
+                color: "#38bdf8",
+                border: "1px solid rgba(56, 189, 248, 0.3)",
+                padding: "8px 16px",
+                borderRadius: "8px",
+                fontWeight: "bold",
+                cursor: "pointer",
+                fontSize: "0.9rem"
+              }}
             >
               ✏️ Editar
             </button>
             <button
-              className="new-song-button"
-              style={{ background: "#ef4444", color: "#ffffff" }}
               onClick={handleDelete}
+              style={{
+                background: "rgba(239, 68, 68, 0.15)",
+                color: "#ef4444",
+                border: "1px solid rgba(239, 68, 68, 0.3)",
+                padding: "8px 16px",
+                borderRadius: "8px",
+                fontWeight: "bold",
+                cursor: "pointer",
+                fontSize: "0.9rem"
+              }}
             >
               🗑️ Eliminar
             </button>
@@ -86,39 +126,44 @@ function SongDetail({ songId, onNavigate, userRole }) {
         )}
       </div>
 
-      {/* DETALLES TÉCNICOS */}
-      <div className="song-metrics">
-        <div className="metric-card">
-          <span className="metric-label">Tonalidad</span>
-          <span className="metric-value">{song.key || "-"}</span>
+      {/* TARJETAS DE MÉTRICAS PROFESIONALES */}
+      <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(130px, 1fr))", gap: "12px", marginBottom: "24px" }}>
+        <div style={{ background: "rgba(30, 41, 59, 0.5)", border: "1px solid rgba(255,255,255,0.08)", padding: "14px 18px", borderRadius: "12px", textAlign: "center" }}>
+          <span style={{ display: "block", color: "#94a3b8", fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "4px" }}>Tonalidad</span>
+          <span style={{ color: "#38bdf8", fontSize: "1.25rem", fontWeight: "bold" }}>{song.key || "-"}</span>
         </div>
 
-        <div className="metric-card">
-          <span className="metric-label">BPM</span>
-          <span className="metric-value">{song.bpm || "-"}</span>
+        <div style={{ background: "rgba(30, 41, 59, 0.5)", border: "1px solid rgba(255,255,255,0.08)", padding: "14px 18px", borderRadius: "12px", textAlign: "center" }}>
+          <span style={{ display: "block", color: "#94a3b8", fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "4px" }}>BPM</span>
+          <span style={{ color: "#fff", fontSize: "1.25rem", fontWeight: "bold" }}>{song.bpm || "-"}</span>
         </div>
 
-        <div className="metric-card">
-          <span className="metric-label">Capo</span>
-          <span className="metric-value">{song.capo || "0"}</span>
+        <div style={{ background: "rgba(30, 41, 59, 0.5)", border: "1px solid rgba(255,255,255,0.08)", padding: "14px 18px", borderRadius: "12px", textAlign: "center" }}>
+          <span style={{ display: "block", color: "#94a3b8", fontSize: "0.75rem", textTransform: "uppercase", letterSpacing: "0.05em", marginBottom: "4px" }}>Capo</span>
+          <span style={{ color: "#fff", fontSize: "1.25rem", fontWeight: "bold" }}>{song.capo || "0"}</span>
         </div>
       </div>
 
       {/* RECURSO DE YOUTUBE */}
       {song.youtube && (
-        <div style={{ marginTop: "20px" }}>
+        <div style={{ marginBottom: "24px" }}>
           <a
             href={song.youtube}
             target="_blank"
             rel="noopener noreferrer"
             style={{
-              display: "inline-block",
+              display: "inline-flex",
+              alignItem: "center",
+              gap: "8px",
               padding: "10px 18px",
-              background: "#ff0000",
+              background: "#dc2626",
               color: "#fff",
               borderRadius: "8px",
               textDecoration: "none",
-              fontWeight: "bold",
+              fontWeight: "600",
+              fontSize: "0.95rem",
+              boxShadow: "0 4px 12px rgba(220, 38, 38, 0.3)",
+              transition: "background 0.2s"
             }}
           >
             ▶️ Ver ensayo en YouTube
@@ -126,27 +171,26 @@ function SongDetail({ songId, onNavigate, userRole }) {
         </div>
       )}
 
-      {/* LETRA Y ACORDES */}
-      <div style={{ marginTop: "25px" }}>
-        <h3>Letra y Acordes</h3>
-        <pre
+      {/* LETRA Y ACORDES ESTILIZADA */}
+      <div style={{ background: "rgba(15, 23, 42, 0.75)", border: "1px solid rgba(255,255,255,0.08)", borderRadius: "16px", padding: "28px" }}>
+        <h3 style={{ margin: "0 0 20px 0", color: "#fff", fontSize: "1.1rem", borderBottom: "1px solid rgba(255,255,255,0.08)", paddingBottom: "12px" }}>
+          Letra y Acordes
+        </h3>
+        
+        <div
           style={{
-            background: "rgba(15, 23, 42, 0.6)",
-            padding: "20px",
-            borderRadius: "12px",
-            border: "1px solid rgba(255,255,255,0.1)",
-            whiteSpace: "pre-wrap",
-            fontFamily: "monospace",
-            fontSize: "1rem",
-            lineHeight: "1.6",
+            fontFamily: "'Courier New', Courier, monospace",
+            fontSize: "1.05rem",
+            lineHeight: "1.8",
             color: "#e2e8f0",
-            marginTop: "10px",
+            whiteSpace: "pre-wrap",
+            wordBreak: "break-word"
           }}
         >
           {song.lyrics || "No hay letra agregada para esta canción."}
-        </pre>
+        </div>
       </div>
-    </section>
+    </div>
   );
 }
 
