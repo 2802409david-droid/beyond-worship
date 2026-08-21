@@ -18,6 +18,7 @@ import SongDetail from "./pages/SongDetail";
 import Schedules from "./pages/Schedules";
 import ScheduleDetail from "./pages/ScheduleDetail";
 import NewSchedule from "./pages/NewSchedule";
+import EditSchedule from "./pages/EditSchedule"; // <-- ¡Importación agregada!
 import Files from "./pages/Files";
 import Team from "./pages/Team";
 
@@ -41,7 +42,6 @@ function App() {
       setUser(currentUser);
       
       if (currentUser) {
-        // CORREO MAESTRO DIRECTO: Si eres tú, admin absoluto garantizado
         if (currentUser.email.toLowerCase() === "2802409david@gmail.com".toLowerCase()) {
           setUserRole("admin");
           setLoadingUser(false);
@@ -171,6 +171,7 @@ function App() {
       {page === "schedules" && <Schedules onNavigate={handleNavigate} userRole={userRole} />}
       {page === "schedule-detail" && <ScheduleDetail scheduleId={selectedSongId} onNavigate={handleNavigate} userRole={userRole} />}
       {page === "new-schedule" && <NewSchedule onNavigate={handleNavigate} userRole={userRole} />}
+      {page === "edit-schedule" && <EditSchedule scheduleId={selectedSongId} onNavigate={handleNavigate} userRole={userRole} />} {/* <-- ¡Ruta agregada! */}
       {page === "files" && <Files onNavigate={handleNavigate} userRole={userRole} />}
       {page === "team" && <Team onNavigate={handleNavigate} userRole={userRole} />}
     </div>
