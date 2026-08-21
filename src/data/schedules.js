@@ -2,6 +2,7 @@ import { db } from "../firebase";
 import { 
   collection, 
   getDocs, 
+  getDoc, 
   addDoc, 
   doc, 
   updateDoc, 
@@ -14,9 +15,9 @@ const SCHEDULES_COLLECTION = "schedules";
 export const getSchedules = async () => {
   try {
     const querySnapshot = await getDocs(collection(db, SCHEDULES_COLLECTION));
-    return querySnapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
+    return querySnapshot.docs.map((docItem) => ({
+      id: docItem.id,
+      ...docItem.data(),
     }));
   } catch (error) {
     console.error("Error al obtener programaciones: ", error);
@@ -24,12 +25,27 @@ export const getSchedules = async () => {
   }
 };
 
+export const getScheduleById = async (id) => {
+  try {
+    const docRef = doc(db, SCHEDULES_COLLECTION, id);
+    const docSnap = await getDoc(docRef);
+    if (docSnap.exists()) {
+      return { id: docSnap.id, ...docSnap.data() };
+    } else {
+      return null;
+    }
+  } catch (error) {
+    console.error("Error al obtener la programación por ID: ", error);
+    throw error;
+  }
+};
+
 export const subscribeToSchedules = (callback) => {
   const schedulesRef = collection(db, SCHEDULES_COLLECTION);
   return onSnapshot(schedulesRef, (snapshot) => {
-    const schedules = snapshot.docs.map((doc) => ({
-      id: doc.id,
-      ...doc.data(),
+    const schedules = snapshot.docs.map((docItem) => ({
+      id: docItem.id,
+      ...docItem.data(),
     }));
     callback(schedules);
   });
@@ -61,21 +77,6 @@ export const deleteSchedule = async (id) => {
     await deleteDoc(scheduleRef);
   } catch (error) {
     console.error("Error al eliminar programación: ", error);
-    throw error;
-  }
-};import { doc, getDoc } from "firebase/firestore"; // Asegúrate de importar getDoc y doc arriba si no los tienes
-
-export const getScheduleById = async (id) => {
-  try {
-    const docRef = doc(db, SCHEDULES_COLLECTION, id);
-    const docSnap = await getDoc(docRef);
-    if (docSnap.exists()) {
-      return { id: docSnap.id, ...docSnap.data() };
-    } else {
-      return null;
-    }
-  } catch (error) {
-    console.error("Error al obtener la programación por ID: ", error);
     throw error;
   }
 };
