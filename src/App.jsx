@@ -41,6 +41,13 @@ function App() {
       setUser(currentUser);
       
       if (currentUser) {
+        // CORREO MAESTRO DIRECTO: Si eres tú, admin absoluto garantizado
+        if (currentUser.email.toLowerCase() === "2802409david@gmail.com".toLowerCase()) {
+          setUserRole("admin");
+          setLoadingUser(false);
+          return;
+        }
+
         try {
           const querySnapshot = await getDocs(collection(db, "team"));
           let foundRole = "musician";
