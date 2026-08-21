@@ -1,21 +1,17 @@
 import { useEffect, useState } from "react";
-import { subscribeToSongs, deleteSong } from "../data/songs";
+import { subscribeToSongs } from "../data/songs";
 
-function Songs({ onNavigate }) {
+function Songs({ onNavigate, userRole }) {
   const [songsList, setSongsList] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
 
   useEffect(() => {
-    // Nos suscribimos a Firebase en tiempo real para obtener las canciones
     const unsubscribe = subscribeToSongs((songs) => {
       setSongsList(songs);
     });
-
-    // Limpiamos la suscripción al desmontar el componente
     return () => unsubscribe();
   }, []);
 
-  // Filtrar canciones según la búsqueda
   const filteredSongs = songsList.filter(
     (song) =>
       song.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -24,7 +20,6 @@ function Songs({ onNavigate }) {
 
   return (
     <div className="page-container" style={{ maxWidth: "800px", margin: "0 auto", padding: "40px 20px" }}>
-      {/* BOTÓN VOLVER */}
       <button
         type="button"
         className="back-button"
@@ -38,36 +33,36 @@ function Songs({ onNavigate }) {
         ← Inicio
       </button>
 
-      {/* ENCABEZADO */}
       <div className="songs-header" style={{ marginBottom: "24px" }}>
         <span className="page-label" style={{ color: "#38bdf8", fontWeight: "700", textTransform: "uppercase", fontSize: "0.85rem", letterSpacing: "0.05em" }}>Repertorio</span>
         <h2 style={{ margin: "6px 0", fontSize: "2rem", color: "#fff" }}>Canciones</h2>
-        <p style={{ color: "#94a3b8", margin: "0 0 16px 0" }}>Administra las letras, tonalidades y recursos de cada canción.</p>
+        <p style={{ color: "#94a3b8", margin: "0 0 16px 0" }}>Explora las letras, tonalidades y recursos de cada canción.</p>
         
-        {/* BOTÓN PARA NUEVA CANCIÓN */}
-        <button
-          type="button"
-          onClick={() => {
-            if (typeof onNavigate === "function") {
-              onNavigate("new-song");
-            }
-          }}
-          style={{
-            background: "#38bdf8",
-            color: "#0f172a",
-            border: "none",
-            padding: "10px 18px",
-            borderRadius: "8px",
-            fontWeight: "bold",
-            cursor: "pointer",
-            fontSize: "0.9rem"
-          }}
-        >
-          + Agregar Canción
-        </button>
+        {/* Solo el admin / director ve el botón de agregar */}
+        {userRole === "admin" && (
+          <button
+            type="button"
+            onClick={() => {
+              if (typeof onNavigate === "function") {
+                onNavigate("new-song");
+              }
+            }}
+            style={{
+              background: "#38bdf8",
+              color: "#0f172a",
+              border: "none",
+              padding: "10px 18px",
+              borderRadius: "8px",
+              fontWeight: "bold",
+              cursor: "pointer",
+              fontSize: "0.9rem"
+            }}
+          >
+            + Agregar Canción
+          </button>
+        )}
       </div>
 
-      {/* BUSCADOR */}
       <div style={{ marginBottom: "20px" }}>
         <input
           type="text"
@@ -87,12 +82,11 @@ function Songs({ onNavigate }) {
         />
       </div>
 
-      {/* LISTA DE CANCIONES */}
       {filteredSongs.length === 0 ? (
         <div style={{ textAlign: "center", padding: "60px 0", background: "rgba(30, 41, 59, 0.4)", borderRadius: "16px", border: "1px solid rgba(255,255,255,0.05)" }}>
           <span style={{ fontSize: "3rem" }}>🎵</span>
           <h3 style={{ color: "#fff", marginTop: "10px" }}>No hay canciones registradas</h3>
-          <p style={{ color: "#94a3b8" }}>Presiona "+ Agregar Canción" para comenzar tu repertorio.</p>
+          <p style={{ color: "#94a3b8" }}>No se encontraron elementos en el repertorio.</p>
         </div>
       ) : (
         <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
