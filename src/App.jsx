@@ -18,7 +18,7 @@ import SongDetail from "./pages/SongDetail";
 import Schedules from "./pages/Schedules";
 import ScheduleDetail from "./pages/ScheduleDetail";
 import NewSchedule from "./pages/NewSchedule";
-import EditSchedule from "./pages/EditSchedule"; // <-- ¡Importación agregada!
+import EditSchedule from "./pages/EditSchedule";
 import Files from "./pages/Files";
 import Team from "./pages/Team";
 
@@ -171,7 +171,7 @@ function App() {
       {page === "schedules" && <Schedules onNavigate={handleNavigate} userRole={userRole} />}
       {page === "schedule-detail" && <ScheduleDetail scheduleId={selectedSongId} onNavigate={handleNavigate} userRole={userRole} />}
       {page === "new-schedule" && <NewSchedule onNavigate={handleNavigate} userRole={userRole} />}
-      {page === "edit-schedule" && <EditSchedule scheduleId={selectedSongId} onNavigate={handleNavigate} userRole={userRole} />} {/* <-- ¡Ruta agregada! */}
+      {page === "edit-schedule" && <EditSchedule scheduleId={selectedSongId} onNavigate={handleNavigate} userRole={userRole} />}
       {page === "files" && <Files onNavigate={handleNavigate} userRole={userRole} />}
       {page === "team" && <Team onNavigate={handleNavigate} userRole={userRole} />}
     </div>
