@@ -78,4 +78,5 @@ export const deleteSchedule = async (id) => {
   } catch (error) {
     console.error("Error al eliminar programación: ", error);
     throw error;
-  } 
+  }
+};
